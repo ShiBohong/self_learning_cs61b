@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="org">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../library-sp21/javalib/org" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

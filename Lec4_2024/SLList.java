@@ -9,10 +9,10 @@ public class SLList {
 			 item=f;
 			 next=r;
 		 }
-	 }
-	 //哨兵节点，它的next为第一个节点，防止空链表导致addLast失效
-	private IntNode sentinal ;//不让用户破坏这个数据结构，用户不能使用IntNode
-	private int size;
+	 }//不让用户破坏这个数据结构，用户不能使用IntNode
+
+	private IntNode sentinal ;//哨兵节点，它的next为第一个节点，防止空链表导致addLast失效，且可以保证代码简洁，因为避免考虑特殊情况链表为空
+	private int size;//不让外部用户直接使用size，只能通过SL类的内部函数访问操作
 
 	//create one-item list
 	public SLList(int x){
@@ -47,7 +47,7 @@ public class SLList {
 
 	//写两个size()目的: 向用户隐藏IntNode类
 	public int size(){
-		return size;//first为private，不能被这个类的public的函数调用，要用private的函数
+		return size;
 	}
 
 	//return the size of the list, starting at IntNode p.

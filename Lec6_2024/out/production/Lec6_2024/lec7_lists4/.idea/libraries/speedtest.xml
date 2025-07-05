@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="speedtest">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/speedtest" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

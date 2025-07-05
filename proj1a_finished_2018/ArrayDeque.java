@@ -1,80 +1,94 @@
-public class ArrayDeque<template> {
-    private template[] items;
+public class ArrayDeque<T> {  
+    private T[] items;
+    private int head;  // 指向第一个元素
+    private int tail;  // 指向最后一个元素的下一个位置
     private int size;
-    private int maxsize;
 
-    //initializing
-    public AList(){
-        items=(template[]) new Object[8];
-        size=0;
-        maxsize=8;
-    }
+    public ArrayDeque() {  
+        items = (T[]) new Object[8];
+        head = 0;
+        tail = 0;
+        size = 0;
+    }  
 
-    private void resize(int capacity){
-        template[] a=(template[]) new Object[capacity];
-        System.arraycopy(items,0,a,0,size);
-        items=a;
-    }
+    private void resize(int capacity) {  
+        T[] a = (T[]) new Object[capacity];
+        // 循环复制元素到新数组
+        for (int i = 0; i < size; i++) {  
+            a[i] = items[(head + i) % items.length];
+        }  
+        items = a;
+        head = 0;
+        tail = size;
+    }  
 
-    public void addFirst(template item){
-        if(size==maxsize){
-            resize(maxsize*2);
-            maxsize*=2;
-        }
-        template[] a=(template[]) new Object[maxsize*2];
-        System.arraycopy(items,0,a,1,size);
-        a[0]=item;
-        items=a;
-        size+=1;
-    }
+    public void addFirst(T item) {  
+        if (size == items.length) {  
+            resize(items.length * 2);
+        }  
+        head = (head - 1 + items.length) % items.length; // 循环
+        items[head] = item;
+        size++;
+    }  
 
-    public void addLast(template item){
-        if(size==maxsize){
-            resize(maxsize*2);
-            maxsize*=2;
-        }
-        items[size]=item;
-        size+=1;
-    }
+    public void addLast(T item) {  
+        if (size == items.length) {  
+            resize(items.length * 2);
+        }  
+        items[tail] = item;
+        tail = (tail + 1) % items.length; // 循环
+        size++;
+    }  
 
-    public boolean isEmpty(){
-        if(size==0){return true;}
-        return false;
-    }
+    public boolean isEmpty() {  
+        return size == 0;
+    }  
 
-    public int size(){
+    public int size() {  
         return size;
-    }
+    }  
 
-    public void printDeque(){
-        for(int i=0;i<size;i++){
-            System.out.print(items[i]+" ");
-        }
-    }
+    public void printDeque() {  
+        for (int i = 0; i < size; i++) {  
+            System.out.print(items[(head + i) % items.length] + " ");
+        }  
+        System.out.println();
+    }  
 
-    public template removeFirst(){
-        if(isEmpty()){return null;}
-        template[] a=(template[]) new Object[size];
-        System.arraycopy(items,1,a,0,size-1);
-        template b=items[0];
-        items=a;
-        size-=1;
-        return b;
-    }
+    public T removeFirst() {  
+        if (isEmpty()) {  
+            return null;
+        }  
+        T item = items[head];
+        items[head] = null; // 避免内存泄漏
+        head = (head + 1) % items.length; // 循环
+        size--;
+        // 检查是否需要缩容
+        if (items.length >= 16 && size < items.length / 4) {  
+            resize(items.length / 2);
+        }  
+        return item;
+    }  
 
-    public template removeLast(){
-        if(isEmpty()){return null;}
-        template b=items[size-1];
-        items[size-1]=0;
-        size-=1;
-        return b;
-    }
+    public T removeLast() {  
+        if (isEmpty()) {  
+            return null;
+        }  
+        tail = (tail - 1 + items.length) % items.length; // 循环
+        T item = items[tail];
+        items[tail] = null; // 避免内存泄漏
+        size--;
+        // 检查是否需要缩容
+        if (items.length >= 16 && size < items.length / 4) {  
+            resize(items.length / 2);
+        }  
+        return item;
+    }  
 
-    public template get(int index){
-        if(isEmpty()){return null;}
-        return items[index-1];
-    }
-
-
-
-}
+    public T get(int index) {  
+        if (index < 0 || index >= size) {  
+            return null;
+        }  
+        return items[(head + index) % items.length];
+    }  
+}    
